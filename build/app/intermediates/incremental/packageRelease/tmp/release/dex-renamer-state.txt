@@ -1,0 +1,4 @@
+#Wed Sep 21 10:07:42 MSK 2022
+base.0=/Users/xander9112/dev/mobile/flutter_coordinator/build/app/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

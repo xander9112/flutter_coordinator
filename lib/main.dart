@@ -1,42 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:path_provider/path_provider.dart';
-import 'app/app_flow.dart';
+import 'src/src.dart';
 
-import 'injectable_init.dart';
-import 'router/app_router.dart';
+Future<void> main() async {
+  await AppInit.initCommon();
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  await AppInit.initFirebase();
 
-  final HydratedStorage storage = await HydratedStorage.build(
-      storageDirectory: await getApplicationDocumentsDirectory());
-  HydratedBlocOverrides.runZoned(
+  AppInit.initStorage(
     () async {
-      await configureDependencies();
+      await AppInit.initDependencies();
 
-      runApp(const MyApp());
-
-      AppFlow();
+      AppCoordinator().start();
     },
-    storage: storage,
   );
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  AppRouter get _appRouter => GetIt.I<AppRouter>();
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerDelegate: _appRouter.delegate(),
-      routeInformationParser: _appRouter.defaultRouteParser(),
-      builder: (BuildContext context, Widget? child) {
-        return Container(child: child);
-      },
-    );
-  }
 }
